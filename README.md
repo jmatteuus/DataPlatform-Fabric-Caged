@@ -1,8 +1,8 @@
 # DataPlatform-Fabric-Caged
 
-Plataforma de dados ponta a ponta construída no para processamento analítico dos microdados mensais do **CAGED**.
+Plataforma de dados ponta a ponta construída no para processamento analítico dos microdados do **CAGED**.
 
-A solução utiliza **PySpark, Apache Spark, Delta Lake, Lakehouse, Data Warehouse, Dataflow Gen2, Semantic Model e Power BI**, com foco em processamento incremental, idempotência, qualidade e rastreabilidade.
+A solução utiliza **PySpark, Apache Spark, Delta Lake, Lakehouse, Data Warehouse, Dataflow Gen2, Semantic Model e Power BI**, processamento incremental, idempotência, qualidade e rastreabilidade.
 
 ## Arquitetura
 
