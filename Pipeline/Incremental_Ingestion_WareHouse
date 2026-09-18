@@ -1,0 +1,228 @@
+{
+    "name": "CargaIncremental",
+    "objectId": "edit...",
+    "properties": {
+        "jobMode": "CDC",
+        "fullLoadBehavior": "Truncate",
+        "source": {
+            "type": "LakehouseTable",
+            "connectionSettings": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                    "workspaceId": "edit...",
+                    "artifactId": "edit...",
+                    "rootFolder": "Tables"
+                },
+                "externalReferences": {
+                    "connection": "edit..."
+                }
+            }
+        },
+        "destination": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                    "endpoint": "edit...",
+                    "artifactId": "edit...",
+                    "workspaceId": "edit..."
+                }
+            }
+        },
+        "policy": {
+            "timeout": "0.12:00:00",
+            "retry": 0
+        }
+    },
+    "activities": [
+        {
+            "id": "edit...",
+            "properties": {
+                "source": {
+                    "datasetSettings": {
+                        "schema": "Gold",
+                        "table": "fato_caged"
+                    },
+                    "changeDataSettings": {
+                        "readMethod": "SnapshotPlusIncremental",
+                        "columns": [
+                            {
+                                "name": "competencia_mov",
+                                "type": "Date",
+                                "physicalType": "date"
+                            }
+                        ],
+                        "nullWatermarkBehavior": "Skip"
+                    },
+                    "partitionSettings": {
+                        "partitionOption": "None"
+                    }
+                },
+                "destination": {
+                    "datasetSettings": {
+                        "schema": "Gold",
+                        "table": "fato_caged"
+                    },
+                    "writeBehavior": "Append",
+                    "tableOption": "autoCreate"
+                },
+                "enableStaging": true,
+                "translator": {
+                    "type": "TabularTranslator",
+                    "mappings": [
+                        {
+                            "source": {
+                                "name": "competencia_mov",
+                                "type": "Date"
+                            },
+                            "destination": {
+                                "name": "competencia_mov",
+                                "physicalType": "date"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "municipio",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "municipio",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "subclasse",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "subclasse",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "cbo2002ocupacao",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "cbo2002ocupacao",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "sexo",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "sexo",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "racacor",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "racacor",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "grau_instrucao",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "grau_instrucao",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "idade",
+                                "type": "Int32",
+                                "physicalType": "integer"
+                            },
+                            "destination": {
+                                "name": "idade",
+                                "physicalType": "int"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "qtd_movimentacoes",
+                                "type": "Int64",
+                                "physicalType": "long"
+                            },
+                            "destination": {
+                                "name": "qtd_movimentacoes",
+                                "physicalType": "bigint"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "qtd_admissoes",
+                                "type": "Int64",
+                                "physicalType": "long"
+                            },
+                            "destination": {
+                                "name": "qtd_admissoes",
+                                "physicalType": "bigint"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "qtd_desligamentos",
+                                "type": "Int64",
+                                "physicalType": "long"
+                            },
+                            "destination": {
+                                "name": "qtd_desligamentos",
+                                "physicalType": "bigint"
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "salario",
+                                "type": "Decimal",
+                                "physicalType": "decimal"
+                            },
+                            "destination": {
+                                "name": "salario",
+                                "physicalType": "decimal",
+                                "scale": 2,
+                                "precision": 18
+                            }
+                        },
+                        {
+                            "source": {
+                                "name": "qtd_salarios",
+                                "type": "Int64",
+                                "physicalType": "long"
+                            },
+                            "destination": {
+                                "name": "qtd_salarios",
+                                "physicalType": "bigint"
+                            }
+                        }
+                    ]
+                },
+                "typeConversionSettings": {
+                    "typeConversion": {
+                        "allowDataTruncation": true,
+                        "treatBooleanAsNumber": false
+                    }
+                }
+            }
+        }
+    ]
+}
