@@ -1,0 +1,158 @@
+{
+    "name": "Pipeline_caged",
+    "objectId": "edit...",
+    "properties": {
+        "activities": [
+            {
+                "name": "Ingestion LakeHouse",
+                "type": "TridentNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "notebookId": "edit...",
+                    "workspaceId": "edit..."
+                }
+            },
+            {
+                "name": "Processing LakeHouse",
+                "type": "TridentNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Ingestion LakeHouse",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "notebookId": "edit...",
+                    "workspaceId": "edit..."
+                }
+            },
+            {
+                "name": "Analytic GoldLayer Lakehouse",
+                "type": "TridentNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Processing LakeHouse",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "notebookId": "edit...",
+                    "workspaceId": "edit..."
+                }
+            },
+            {
+                "name": "Incremental Ingestion DW",
+                "type": "InvokeCopyJob",
+                "dependsOn": [
+                    {
+                        "activity": "Analytic GoldLayer Lakehouse",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "copyJobId": "edit...",
+                    "workspaceId": "edit...",
+                    "operationType": "RunCopyJob"
+                },
+                "externalReferences": {
+                    "connection": "edit..."
+                }
+            },
+            {
+                "name": "Refresh OLAP Semantic Model",
+                "type": "PBISemanticModelRefresh",
+                "dependsOn": [
+                    {
+                        "activity": "Incremental Ingestion DW",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "method": "POST",
+                    "operationType": "SemanticModelRefresh",
+                    "groupId": "edit...",
+                    "datasetId": "edit...",
+                    "objects": [
+                        {
+                            "table": "fato_caged"
+                        },
+                        {
+                            "table": "dim_uf"
+                        },
+                        {
+                            "table": "dim_mun"
+                        },
+                        {
+                            "table": "dim_cbos"
+                        },
+                        {
+                            "table": "dim_graudeinstrucao"
+                        },
+                        {
+                            "table": "dim_cnaes"
+                        },
+                        {
+                            "table": "dim_idade"
+                        },
+                        {
+                            "table": "dim_sexo"
+                        },
+                        {
+                            "table": "dim_racacor"
+                        }
+                    ],
+                    "waitOnCompletion": true,
+                    "commitMode": "Transactional"
+                },
+                "externalReferences": {
+                    "connection": "edit..."
+                }
+            }
+        ],
+        "lastModifiedByObjectId": "edit...",
+        "lastPublishTime": "..."
+    }
+}
